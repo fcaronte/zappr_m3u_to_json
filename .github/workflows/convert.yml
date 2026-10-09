@@ -12,20 +12,6 @@ on:
         required: true
         default: "La mia lista"
         type: string
-      publisher:
-        description: "Autore/publisher"
-        required: true
-        type: string
-      publisher_link:
-        description: "Sito del publisher (opzionale)"
-        required: false
-        default: ""
-        type: string
-      epg_url:
-        description: "URL EPG con CORS abilitato (opzionale, vuoto = disattivato)"
-        required: false
-        default: ""
-        type: string
       output_file:
         description: "Nome del file JSON in output"
         required: true
@@ -45,14 +31,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Gli input passano da variabili d'ambiente, mai inseriti direttamente nello script shell
       - name: Converti
         env:
           M3U_URL: ${{ inputs.m3u_url }}
           LIST_NAME: ${{ inputs.list_name }}
-          PUBLISHER: ${{ inputs.publisher }}
-          PUBLISHER_LINK: ${{ inputs.publisher_link }}
-          EPG_URL: ${{ inputs.epg_url }}
           OUTPUT_FILE: ${{ inputs.output_file }}
         run: |
           case "$OUTPUT_FILE" in
@@ -62,9 +44,9 @@ jobs:
           python convert.py "$M3U_URL" \
             -o "output/$OUTPUT_FILE" \
             --name "$LIST_NAME" \
-            --publisher "$PUBLISHER" \
-            --publisher-link "$PUBLISHER_LINK" \
-            --epg "$EPG_URL"
+            --publisher "Sconosciuto" \
+            --publisher-link "" \
+            --epg ""
 
       - name: Valida con schema.json (se presente)
         env:
