@@ -67,6 +67,13 @@ def detect_stream(url):
     return "hls", url  # default, segnalato nei warning
 
 
+def convert_to_https(url):
+    """Converte URL da http a https se possibile."""
+    if url.lower().startswith("http://"):
+        return url.replace("http://", "https://", 1), True
+    return url, False
+
+
 def build_channels(entries, warnings):
     channels = []
     used = set()
@@ -101,12 +108,17 @@ def build_channels(entries, warnings):
         if re.search(r"\b(4K|UHD)$", name, re.I):
             ch["uhd"] = True
 
+        # Converte URL da http a https
+        url, was_http = convert_to_https(url)
+        
         stype, surl = detect_stream(url)
         known = re.search(r"\.(mpd|m3u8?|mp3|aac|ogg|mp4|webm)(\?|$)", url, re.I) or stype in ("youtube", "twitch")
         if not known:
             warnings.append(f"'{name}': tipo stream non riconosciuto, assunto 'hls' ({url})")
         ch["type"], ch["url"] = stype, surl
-        if url.lower().startswith("http://"):
+        
+        # Se l'URL era originariamente HTTP, aggiungi il flag http
+        if was_http:
             ch["http"] = True
 
         channels.append(ch)
