@@ -144,5 +144,4 @@ def main():
 
 
 if __name__ == "__main__":
-    U")
-  "t"
+    main()
