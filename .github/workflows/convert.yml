@@ -40,18 +40,19 @@ jobs:
           echo "::notice::Nome lista: $LIST_NAME"
           echo "::notice::Publisher: $PUBLISHER"
           
-          # Esegui la conversione e stampa l'output
+          # Crea cartella output
+          mkdir -p output
+          
+          # Esegui la conversione
           python convert.py "$M3U_URL" \
             --name "$LIST_NAME" \
             --publisher "$PUBLISHER" \
             --publisher-link "" \
             --epg "" \
-            -o /tmp/channels.json
-          
-          # Mostra il contenuto del file generato
-          echo ""
-          echo "::group::JSON Output (copia questo contenuto)"
-          cat /tmp/channels.json
-          echo "::endgroup::"
-          echo ""
-          echo "::notice::Copia il JSON sopra e incollalo su Pastebin o simili"
+            -o "output/channels.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zappr-channels-json
+          path: output/channels.json
+          retention-days: 5
