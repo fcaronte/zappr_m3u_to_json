@@ -4,22 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       m3u_url:
-        description: "URL della playlist M3U"
+        description: "URL della playlist M3U (es. https://raw.githubusercontent.com/USER/REPO/main/file.m3u)"
         required: true
-        type: string
-      list_name:
-        description: "Nome della lista"
-        required: true
-        default: "La mia lista"
-        type: string
-      output_file:
-        description: "Nome del file JSON in output"
-        required: true
-        default: "channels.json"
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   convert:
@@ -31,46 +21,37 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Converti
+      - name: Estrai info dall'URL e converti
         env:
           M3U_URL: ${{ inputs.m3u_url }}
-          LIST_NAME: ${{ inputs.list_name }}
-          OUTPUT_FILE: ${{ inputs.output_file }}
         run: |
-          case "$OUTPUT_FILE" in
-            */*|..*|"") echo "::error::Nome file non valido"; exit 1 ;;
-          esac
-          mkdir -p output
-          python convert.py "$M3U_URL" \
-            -o "output/$OUTPUT_FILE" \
-            --name "$LIST_NAME" \
-            --publisher "Sconosciuto" \
-            --publisher-link "" \
-            --epg ""
-
-      - name: Valida con schema.json (se presente)
-        env:
-          OUTPUT_FILE: ${{ inputs.output_file }}
-        run: |
-          if [ -f schema.json ]; then
-            pip install jsonschema
-            python validate.py schema.json "output/$OUTPUT_FILE"
-          else
-            echo "schema.json non trovato: validazione saltata"
+          # Estrai il nome del repo come nome lista
+          LIST_NAME=$(echo "$M3U_URL" | sed -n 's|.*github\.com/[^/]*/\([^/]*\)/.*|\1|p')
+          if [ -z "$LIST_NAME" ]; then
+            LIST_NAME="Lista IPTV"
           fi
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: zappr-json
-          path: output/
-
-      - name: Salva il JSON nel repository
-        env:
-          OUTPUT_FILE: ${{ inputs.output_file }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "output/$OUTPUT_FILE"
-          git diff --cached --quiet && echo "Nessuna modifica" && exit 0
-          git commit -m "Aggiorna output/$OUTPUT_FILE"
-          git push
+          
+          # Estrai lo username GitHub come publisher
+          PUBLISHER=$(echo "$M3U_URL" | sed -n 's|.*github\.com/\([^/]*\)/.*|\1|p')
+          if [ -z "$PUBLISHER" ]; then
+            PUBLISHER="Sconosciuto"
+          fi
+          
+          echo "::notice::Nome lista: $LIST_NAME"
+          echo "::notice::Publisher: $PUBLISHER"
+          
+          # Esegui la conversione e stampa l'output
+          python convert.py "$M3U_URL" \
+            --name "$LIST_NAME" \
+            --publisher "$PUBLISHER" \
+            --publisher-link "" \
+            --epg "" \
+            -o /tmp/channels.json
+          
+          # Mostra il contenuto del file generato
+          echo ""
+          echo "::group::JSON Output (copia questo contenuto)"
+          cat /tmp/channels.json
+          echo "::endgroup::"
+          echo ""
+          echo "::notice::Copia il JSON sopra e incollalo su Pastebin o simili"
