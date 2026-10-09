@@ -1,6 +1,6 @@
 {
-    "name": "La mia lista",
-    "publisher": "F",
+    "name": "iptvitaplus",
+    "publisher": "f",
     "epg": false,
     "channels": [
         {
@@ -8,7 +8,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai1.png?raw=1",
             "name": "Rai 1",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=2606803&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -16,7 +16,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai2.png?raw=1",
             "name": "Rai 2",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308718&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -24,7 +24,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai3.png?raw=1",
             "name": "Rai 3",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -81,7 +81,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai4.png?raw=1",
             "name": "Rai 4",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746966&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -96,7 +96,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rai5.png?raw=1",
             "name": "Rai 5",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=395276&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -104,7 +104,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raimovie.png?raw=1",
             "name": "Rai Movie",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747002&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -112,7 +112,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raipremium.png?raw=1",
             "name": "Rai Premium",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746992&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -232,7 +232,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raigulp.png?raw=1",
             "name": "Rai Gulp",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746953&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -240,7 +240,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raiyoyo.png?raw=1",
             "name": "Rai Yoyo",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746899&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -269,7 +269,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rainews24.png?raw=1",
             "name": "Rai News 24",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=1&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -305,7 +305,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raistoria.png?raw=1",
             "name": "Rai Storia",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746990&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=746990&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -327,7 +327,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/raiscuola.png?raw=1",
             "name": "Rai Scuola",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747011&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=747011&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -336,7 +336,7 @@
             "hd": true,
             "name": "Rai Sport +",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=358025&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=358025&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
@@ -435,7 +435,7 @@
             "logo": "https://cdn.jsdelivr.net/gh/Tundrak/IPTV-Italia/logos/rairadio2visual.png?raw=1",
             "name": "Rai Radio 2 Visual",
             "type": "hls",
-            "url": "http://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=5674080&output=7&forceUserAgent=raiplayappletv",
+            "url": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=5674080&output=7&forceUserAgent=raiplayappletv",
             "http": true
         },
         {
