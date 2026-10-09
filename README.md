@@ -1,63 +1,70 @@
+Ecco il README aggiornato e ottimizzato per riflettere la nuova struttura "Smart" con supporto al cron e alle variabili.
+
 ***
 
-# 📺 M3U → JSON per Zappr
+# 📺 M3U → JSON per Zappr (Smart Converter)
 
-Questo tool converte automaticamente una playlist **M3U/M3U8** in un file **JSON** perfettamente compatibile con lo schema di [Zappr](https://zappr.stream).
+Convertitore automatico di playlist **M3U/M3U8** in formato **JSON** compatibile con [Zappr](https://zappr.stream).  
+Supporta l'aggiornamento programmato (Cron), la pulizia intelligente dei dati e la gestione sicura degli URL.
 
-Gestisce automaticamente la pulizia dei nomi, la conversione degli URL da HTTP a HTTPS, l'assegnazione dei LCN e il rilevamento del tipo di stream (HLS, DASH, YouTube, Twitch, ecc.).
+## ⚡ Funzionalità Principali
+*   **Conversione Intelligente:** Rileva automaticamente tipi di stream (HLS, DASH, YouTube, Twitch) e converte HTTP in HTTPS.
+*   **Aggiornamento Automatico:** Può sincronizzare la lista ogni giorno senza intervento manuale.
+*   **Memoria URL:** Ricorda il tuo link M3U preferito grazie alle Variabili di GitHub.
+*   **Sicuro:** Nessun dato sensibile esposto; i permessi di scrittura sono limitati agli owner del repo.
 
-## 🚀 Come si usa
+---
 
-Ci sono due modi principali per utilizzare questo convertitore, a seconda delle tue esigenze:
+## 🚀 Guida all'Uso
 
-### Opzione 1: Uso Personale (Tramite Artifact)
-*Ideale se vuoi tenere il tuo repository pulito e non vuoi salvare file permanentemente.*
+### 1. Configurazione Iniziale (Una volta sola)
+Per abilitare l'aggiornamento automatico o evitare di incollare l'URL ogni volta:
 
-1. Vai sulla scheda **Actions** del repository.
-2. Seleziona il workflow **"Converti M3U in JSON (Scarica Artifact)"**.
-3. Clicca su **Run workflow** e inserisci:
-   - L'URL della tua playlist M3U.
-   - Il nome che vuoi dare alla lista.
-4. Al termine dell'esecuzione, scorri in fondo alla pagina nella sezione **Artifacts**.
-5. Scarica il file ZIP contenente il tuo `channels.json`.
-6. **Importante:** Poiché questo file non viene salvato nel repository, per usarlo su Zappr dovrai caricarlo su un servizio di hosting raw come **[Pastebin](https://pastebin.com/)**, **[GitHub Gist](https://gist.github.com/)** o simili, e usare quel link pubblico in Zappr.
+1. Vai su **Settings** > **Secrets and variables** > **Actions**.
+2. Nella scheda **Variables**, clicca su **New repository variable**.
+3. Compila così:
+   *   **Name:** `DEFAULT_M3U_URL`
+   *   **Value:** L'URL della tua playlist (es. `https://raw.githubusercontent.com/.../lista.m3u`)
 
-### Opzione 2: Uso Permanente / Fork (Tramite Commit)
-*Ideale se vuoi che il file rimanga accessibile direttamente dal tuo repository GitHub.*
+### 2. Avvio del Workflow
+Vai su **Actions** > **Converti M3U in JSON (Smart & Auto)** > **Run workflow**.
 
-1. Vai sulla scheda **Actions** e seleziona **"Converti M3U in JSON (Salva su Repo)"**.
-2. Compila i campi richiesti e avvia il workflow.
-3. Il file JSON verrà salvato automaticamente nella cartella `output/` del tuo repository.
-4. Ora puoi usare direttamente il link "Raw" di GitHub in Zappr:
-   ```text
-   https://raw.githubusercontent.com/<tuo-utente>/<tuo-repo>/main/output/channels.json
-   ```
-   *(Nota: `raw.githubusercontent.com` supporta nativamente le richieste CORS richieste da Zappr).*
+Hai due modalità:
+*   **Manuale:** Inserisci un URL diverso nel campo apposito se vuoi convertire una lista specifica al volo.
+*   **Automatico (Cron):** Lascia il campo URL vuoto. Il sistema userà quello salvato nelle variabili. Se hai attivato la schedulazione, si aggiornerà da solo ogni notte alle 03:00 UTC.
 
-> **Sicurezza:** Solo il proprietario del repository può eseguire il workflow che salva i file (Commit). Gli utenti esterni possono solo scaricare gli Artifact o usare il workflow sui loro fork personali.
+### 3. Risultato
+Il file JSON viene salvato nella cartella `output/` del tuo repository.  
+Il link da usare in Zappr sarà sempre lo stesso:
+```text
+https://raw.githubusercontent.com/<tuo-utente>/<tuo-repo>/main/output/channels.json
+```
 
-## 💻 Uso da riga di comando
+---
 
-Se preferisci eseguirlo localmente sul tuo PC:
+## 💻 Uso Locale (Python)
+Se preferisci eseguirlo sul tuo PC:
 
 ```bash
 python convert.py https://esempio.it/lista.m3u -o channels.json \
   --name "La mia lista" --publisher "Il Mio Nome"
 ```
 
-## ⚙️ Regole di Conversione
+---
 
-Il convertitore applica queste regole per rispettare lo schema di Zappr:
+## ⚙️ Regole di Conversione
 
 | Campo M3U | Azione nel JSON |
 | :--- | :--- |
-| `tvg-chno` | Diventa `lcn`. Se manca, viene assegnato un numero progressivo automatico. |
-| Nome Canale | Diventa `name`. Se finisce con " HD", viene rimosso e impostato `hd: true`. |
-| `tvg-logo` | Diventa `logo`. Se finisce in `.png` o `.webp`, aggiunge `?raw=1` per compatibilità. |
-| URL Stream | Rileva automaticamente il `type` (`hls`, `dash`, `youtube`, `twitch`, `audio`, `direct`). |
-| URL `http://` | Converte l'URL in `https://` e imposta `http: true` per segnalare a Zappr l'uso del protocollo non sicuro. |
+| `tvg-chno` | Diventa `lcn`. Se manca, assegnazione progressiva automatica. |
+| Nome Canale | Pulizia caratteri speciali. Rimozione suffisso " HD" (imposta flag `hd: true`). |
+| `tvg-logo` | Aggiunta automatica di `?raw=1` ai loghi `.png`/`.webp` per compatibilità schema. |
+| URL Stream | Rilevamento tipo (`hls`, `dash`, `youtube`, ecc.) e conversione forzata HTTPS. |
+| URL `http://` | Convertito in HTTPS con flag `http: true` per avvisare Zappr. |
 
-## ❓ Risoluzione Problemi
+---
 
-- **Errore JSON:** Se ricevi errori di sintassi, assicurati che l'URL M3U sia raggiungibile pubblicamente. Lo script include protezioni contro caratteri speciali nei nomi dei canali.
-- **Warning nei Log:** Controlla i log dell'Action se vedi warning su "LCN mancante" o "Tipo stream non riconosciuto". Il convertitore farà del suo meglio per indovinare, ma è sempre meglio avere una M3U ben formattata.
+## 🔒 Note sulla Sicurezza
+*   **Artifact vs Commit:** Questo workflow salva il file direttamente nel repo (Commit). Assicurati di non committare dati sensibili.
+*   **Permessi:** Solo il proprietario del repo può eseguire il workflow che scrive sui file. Gli utenti esterni possono solo visualizzare il risultato finale se il repo è pubblico.
+*   **CORS:** L'URL raw di GitHub (`raw.githubusercontent.com`) è già configurato per accettare le richieste CORS necessarie a Zappr.
