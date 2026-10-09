@@ -1,0 +1,55 @@
+name: Converti M3U in JSON (Scarica Artifact)
+
+on:
+  workflow_dispatch:
+    inputs:
+      m3u_url:
+        description: "URL della playlist M3U"
+        required: true
+        type: string
+      list_name:
+        description: "Nome della lista"
+        required: true
+        default: "La mia lista"
+        type: string
+      output_filename:
+        description: "Nome del file JSON"
+        required: true
+        default: "channels.json"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Estrai info e Converti
+        env:
+          M3U_URL: ${{ inputs.m3u_url }}
+          LIST_NAME: ${{ inputs.list_name }}
+          OUTPUT_FILENAME: ${{ inputs.output_filename }}
+        run: |
+          PUBLISHER=$(echo "$M3U_URL" | sed -n 's|.*github\.com/\([^/]*\)/.*|\1|p')
+          if [ -z "$PUBLISHER" ]; then PUBLISHER="Sconosciuto"; fi
+          
+          mkdir -p output
+          python convert.py "$M3U_URL" \
+            -o "output/$OUTPUT_FILENAME" \
+            --name "$LIST_NAME" \
+            --publisher "$PUBLISHER" \
+            --publisher-link "" \
+            --epg ""
+
+      - name: Carica Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zappr-channels-json
+          path: output/${{ inputs.output_filename }}
+          retention-days: 7
